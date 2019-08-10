@@ -70,7 +70,7 @@
 
     <form class="well" id="signup-form">
 
-        <img id="login-logo" src="/img/logo.png">
+        <img id="login-logo" src="//i.imgur.com/kCxGqHm.png">
         <h2>SignUp</h2>
         <h6>Create a New Account</h6>
 
@@ -112,7 +112,6 @@
     socket.on("connect", function (status) {
         debugMode && console.log("status:", status);
         if (status.isAuthenticated) {
-        //  location.pathname = userPage;
             var authToken = socket.getAuthToken();
             $(emailSelector).val(authToken.email);
             $(usernameSelector).val(authToken.user);
