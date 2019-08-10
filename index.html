@@ -38,23 +38,6 @@
             "scc-clients": socketCluster.clients,
         });
 
-        socket = socketCluster.create({
-        //  port:443,
-            hostname: "anywhere3d.com",
-            codecEngine: scCodecMinBin,
-        });
-
-        socket.on("connect", function (status) {
-            debugMode && console.log("status:", status);
-            if (status.isAuthenticated) {
-                var authToken = socket.getAuthToken();
-                $(emailSelector).val(authToken.email);
-                $(usernameSelector).val(authToken.user);
-            //  $(passwordSelector).val(authToken.password);
-                debugMode && console.log( "authToken:", authToken );
-            }
-        });
-
     </script>
 
 </head>
@@ -119,6 +102,23 @@
 </section>
 
 <script>
+
+    socket = socketCluster.create({
+        //  port:443,
+        hostname: "anywhere3d.com",
+        codecEngine: scCodecMinBin,
+    });
+
+    socket.on("connect", function (status) {
+        debugMode && console.log("status:", status);
+        if (status.isAuthenticated) {
+            var authToken = socket.getAuthToken();
+            $(emailSelector).val(authToken.email);
+            $(usernameSelector).val(authToken.user);
+            //  $(passwordSelector).val(authToken.password);
+            debugMode && console.log( "authToken:", authToken );
+        }
+    });
 
     socket.on("authenticate", function( signedAuthToken ){
         debugMode && console.log("signedAuthToken:", signedAuthToken );
