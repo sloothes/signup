@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0 initial-scale=1.0">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="description" contents="Singup to sloothes.com">
+
+    <title>singup (scc v1.1)</title>
+
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootbox-dialoges.css">
+    <link rel="stylesheet" href="/css/alerts.css">
+    <link rel="stylesheet" href="/css/meter.css">
+
+    <script src="/socketcluster.js"></script>
+    <script src="/sc-codec-min-bin.js"></script>
+
+    <script src="/js/loadjs.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery-ui.js"></script>
+    <script src="/js/bootbox.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/alerts.js"></script>
+    <script src="/js/validator.min.js"></script>
+    <script src="/js/DeviceDetector.js"></script>
+
+    <script>
+
+        debugMode = true;
+
+        console.log({
+            "debug": debugMode,
+            "scc-version": socketCluster.version,
+            "scc-clients": socketCluster.clients,
+        });
+
+    </script>
+
+</head>
+
+<body>
+
+<style>
+
+    #signup-form { 
+        width:350px; 
+    }
+
+    #login-logo { 
+        width:100%; 
+        height:auto; 
+    }
+
+    .middle > * {
+        position:absolute;
+        height:fit-content;
+        width:fit-content;
+        top:0; bottom:0;
+        left:0; right:0;
+        margin:auto;
+    }
+
+</style>
+
+<section class="middle">
+
+    <form class="well" id="signup-form">
+
+        <img id="login-logo" src="/img/logo.png">
+        <h2>SignUp</h2>
+        <h6>Create a New Account</h6>
+
+        <div class="form-group">
+            <div class="signup-label">*Email</div>
+            <input type="email" class="form-control" id="email" name="email" required title="Type your email">
+        </div>
+        
+        <div class="form-group">
+            <div class="login-label">*Username</div>
+            <input type="text" class="form-control" id="username" name="username" required title="Type your username">
+        </div>
+        <div class="form-group">
+            <div class="signup-label">*Password</div>
+            <input type="password" class="form-control" id="password" name="password" required title="Type your password">
+        </div>
+
+        <div class="form-group">
+            <a class="btn btn-default pull-right" id="signup-btn" name="submit">SignUp</a>
+            <a class="btn btn-default pull-right" id="cancel-btn" name="cancel">Cancel</a>
+        </div>
+
+        <div class="btm-links">
+            <div id="login-account"><a href="#">Already have Account?</a></div>
+        </div>
+
+    </form>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+
+    var socket = socketCluster.create({
+    //  port:443,
+        hostname: "anywhere3d.com",
+        codecEngine: scCodecMinBin,
+    });
+
+    socket.on("connect", function (status) {
+        debugMode && console.log("status:", status);
+        if (status.isAuthenticated) {
+        //  location.pathname = userPage;
+            var authToken = socket.getAuthToken();
+            $(emailSelector).val(authToken.email);
+            $(usernameSelector).val(authToken.user);
+        //  $(passwordSelector).val(authToken.password);
+            debugMode && console.log( "authToken:", authToken );
+        }
+    });
+
+    socket.on("authenticate", function( signedAuthToken ){
+        debugMode && console.log("signedAuthToken:", signedAuthToken );
+    });
+
+    socket.on("deauthenticate", function( signedAuthToken ){
+        debugMode && console.log("signedAuthToken:", signedAuthToken );
+    });
+
+    socket.on("authStateChange", function( state ){
+        debugMode && console.log("state:", state);
+    });
+
+    socket.on("kickOut", function(message, channelName){
+        debugMode && console.log("kickOut message:", message);
+        debugMode && console.log("kickOut channel:", channelName);
+    });
+
+    socket.on("raw", function(){});
+    socket.on("close", function(){});
+    socket.on("disconnect", function(){});
+    socket.on("connectAbort", function(){});
+
+    socket.on("error", function (err) {
+        console.error( "scc-error:", err );
+        if (err) bootboxErrorAlert( err.message, function(){});
+    });
+
+    socket.on("message", function(data){
+        debugMode && console.log( "scc-message:", data );
+    });
+
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
