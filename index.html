@@ -101,18 +101,6 @@
 
 </section>
 
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
 
     var socket = socketCluster.create({
@@ -161,7 +149,7 @@
     });
 
     socket.on("message", function(data){
-        debugMode && console.log( "scc-message:", data );
+    //  debugMode && console.log( "scc-message:", data );
     });
 
 </script>
