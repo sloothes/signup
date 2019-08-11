@@ -113,9 +113,9 @@
         debugMode && console.log("status:", status);
         if (status.isAuthenticated) {
             var authToken = socket.getAuthToken();
-            $(emailSelector).val(authToken.email);
-            $(usernameSelector).val(authToken.user);
-            //  $(passwordSelector).val(authToken.password);
+            $("#emal").val(authToken.email);
+            $("#username").val(authToken.user);
+        //  $("#password").val(authToken.password);
             debugMode && console.log( "authToken:", authToken );
         }
     });
