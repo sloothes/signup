@@ -164,9 +164,68 @@
 
         socket.emit("signup", credentials, function(err, data){
             if (err) {
+
                 console.error( "signup error:", err );
+
+                bootbox.dialog({
+                    size: "small",
+                    className: "middle",
+                    closeButton: true,
+                    title: `<div class="alert-icon icon-warning">` 
+                    + `</div><h2 style="margin:auto;">Error!</h2>`,
+                    message: `<div>Sorry! An error occurred.</div>`
+                    + `<div>${err}</div>`,
+                    buttons: {
+                        cancel: {
+                            label: "Close",
+                            className: "btn-default",
+                        },
+                    },
+                });
+
             } else {
+
                 debugMode && console.log("signup success:", data);
+
+                if (data.success) bootbox.dialog({
+                    size: "small",
+                    className: "middle",
+                    closeButton: false,
+                    title: `<div class="alert-icon icon-success">`
+                    + `</div><h2 style="margin:auto;">Success</h2>`,
+                    message: `<div>${data.success}</div>`,
+                    buttons: { 
+                        success: {
+                            label: "Close",
+                            className: "btn-success",
+                            callback: function(){ 
+                                bootbox.hideAll(); 
+                            }
+                        },
+                    }
+                });
+
+            }
+        });
+
+    });
+
+    $("#cancel-btn").on("click", function(){
+
+        var msg = "Sing up canceled by the user."
+
+        bootbox.dialog({
+            size: "small",
+            className: "middle",
+            closeButton: true,
+            title: `<div class="alert-icon icon-warning">` 
+            + `</div><h2 style="margin:auto;">Canceled</h2>`,
+            message: `<div>${msg}</div>`,
+            buttons: {
+                cancel: {
+                    label: "Close",
+                    className: "btn-default",
+                },
             }
         });
 
