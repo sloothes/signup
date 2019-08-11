@@ -187,7 +187,14 @@
 
                 debugMode && console.log("signup success:", data);
 
-                if (data.success) bootbox.dialog({
+                if (data.message) bootbox.dialog({
+                    buttons: false,
+                    closeButton: true,
+                    className: "middle",
+                    message: `<div class="text-center">${data.message}</div>`,
+                });
+
+                else if (data.success) bootbox.dialog({
                     size: "small",
                     className: "middle",
                     closeButton: false,
@@ -203,6 +210,22 @@
                             }
                         },
                     }
+                });
+
+                else if (data.error) bootbox.dialog({
+                    size: "small",
+                    className: "middle",
+                    closeButton: true,
+                    title: `<div class="alert-icon icon-warning">` 
+                    + `</div><h2 style="margin:auto;">Error!</h2>`,
+                    message: `<div>Sorry! An error occurred.</div>`
+                    + `<div>${data.error}</div>`,
+                    buttons: {
+                        cancel: {
+                            label: "Close",
+                            className: "btn-default",
+                        },
+                    },
                 });
 
             }
